@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cassandra-to-sql-poc.iml" filepath="$PROJECT_DIR$/.idea/modules/cassandra-to-sql-poc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cassandra-to-sql-poc-build.iml" filepath="$PROJECT_DIR$/.idea/modules/cassandra-to-sql-poc-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-api/user-api.iml" filepath="$PROJECT_DIR$/user-api/user-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/user-api-build.iml" filepath="$PROJECT_DIR$/.idea/modules/user-api-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user-impl/user-impl.iml" filepath="$PROJECT_DIR$/user-impl/user-impl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/user-impl-build.iml" filepath="$PROJECT_DIR$/.idea/modules/user-impl-build.iml" />
+    </modules>
+  </component>
+</project>
