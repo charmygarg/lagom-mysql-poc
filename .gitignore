@@ -9,7 +9,7 @@ node_modules/
 
 # OS Files #
 .DS_Store
- 
+
 *.class
 coverage.html
 style.html

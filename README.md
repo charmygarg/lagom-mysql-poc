@@ -1,1 +1,1 @@
-# lagom-mysql-poc
+ # Lagom with MySql CRUD application
