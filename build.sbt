@@ -17,8 +17,10 @@ lazy val `user-api` = (project in file("user-api"))
 lazy val `user-impl` = (project in file("user-impl"))
   .enablePlugins(LagomScala)
   .settings(
-    libraryDependencies ++= Seq(lagomScaladslTestKit, macwire, filterHelper, scalaTest,
-      lagomScaladslPersistenceJdbc, lagomScaladslApi, mockito, mySqlConnector, typesafeConf))
+    libraryDependencies ++= Seq(lagomScaladslTestKit, MacWire, FilterHelper, ScalaTest,
+      lagomScaladslPersistenceJdbc, lagomScaladslApi, Mockito, MySqlConnector, TypeSafeConf))
   .dependsOn(`user-api`)
 
 lagomCassandraEnabled in ThisBuild := false
+
+dependencyOverrides in ThisBuild ++= Seq(ScalaParser, NettyHandler, AkkaStream, AkkaActor, Guava)

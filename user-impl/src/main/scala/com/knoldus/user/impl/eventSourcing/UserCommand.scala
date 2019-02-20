@@ -13,7 +13,7 @@ object AddUserCommand {
   implicit val Format: Format[AddUserCommand] = Json.format
 }
 
-case class GetUserCommand(orgId: String) extends UserCommand[Option[UserDetails]]
+case class GetUserCommand(orgId: Int) extends UserCommand[Option[UserDetails]]
 
 object GetUserCommand {
   implicit val Format: Format[GetUserCommand] = Json.format

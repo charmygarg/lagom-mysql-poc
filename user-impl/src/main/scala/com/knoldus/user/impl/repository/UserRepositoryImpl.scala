@@ -21,8 +21,8 @@ class UserRepositoryImpl(session: JdbcSession)(implicit ec: ExecutionContext) ex
   }
 
   override def processUserAdded(userAddedEvent: UserAdded): Future[Done] = {
-    session.withConnection { con =>
-      val statement = con.prepareStatement("INSERT INTO user (orgId, email, name) VALUES (?, ?, ?)")
+    session.withConnection { connection =>
+      val statement = connection.prepareStatement("INSERT INTO user (orgId, email, name) VALUES (?, ?, ?)")
       statement.setInt(1, userAddedEvent.user.orgId)
       statement.setString(2, userAddedEvent.user.email)
       statement.setString(3, userAddedEvent.user.name)
@@ -31,8 +31,8 @@ class UserRepositoryImpl(session: JdbcSession)(implicit ec: ExecutionContext) ex
   }
 
   override def processUserUpdated(userUpdateEvent: UserUpdated): Future[Done] = {
-    session.withConnection { con =>
-      val statement = con.prepareStatement("UPDATE user SET name = ? WHERE orgId = ?")
+    session.withConnection { connection =>
+      val statement = connection.prepareStatement("UPDATE user SET name = ? WHERE orgId = ?")
       statement.setString(1, userUpdateEvent.name)
       statement.setInt(2, userUpdateEvent.orgId)
       statement.executeUpdate()
@@ -40,8 +40,8 @@ class UserRepositoryImpl(session: JdbcSession)(implicit ec: ExecutionContext) ex
   }
 
   override def processUserDeleted(userDeleteEvent: UserDeleted): Future[Done] = {
-    session.withConnection { con =>
-      val statement = con.prepareStatement("DELETE FROM user WHERE orgId = ?")
+    session.withConnection { connection =>
+      val statement = connection.prepareStatement("DELETE FROM user WHERE orgId = ?")
       statement.setInt(1, userDeleteEvent.orgId)
       statement.executeUpdate()
     }.map(_ => Done)

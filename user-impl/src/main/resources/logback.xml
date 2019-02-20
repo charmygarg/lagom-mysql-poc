@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="PROJECT" value="cassandra-to-sql-poc"/>
+    <property name="PROJECT" value="lagom-mysql-poc"/>
     <property name="SERVICE" value="user"/>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
