@@ -1,9 +1,10 @@
 package com.knoldus.user.impl
 
 import akka.{Done, NotUsed}
+import com.knoldus.user.api.UserService
 import com.knoldus.user.impl.constants.UserConstants._
 import com.knoldus.user.impl.eventSourcing._
-import com.knoldus.user.impl.models._
+import com.knoldus.user.api.models._
 import com.lightbend.lagom.scaladsl.api.ServiceCall
 import com.lightbend.lagom.scaladsl.persistence.{PersistentEntityRef, PersistentEntityRegistry}
 import org.slf4j.{Logger, LoggerFactory}

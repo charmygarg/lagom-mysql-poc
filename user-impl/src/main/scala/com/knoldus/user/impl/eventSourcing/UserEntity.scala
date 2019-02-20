@@ -3,7 +3,7 @@ package com.knoldus.user.impl.eventSourcing
 import java.time.LocalDateTime
 
 import akka.Done
-import com.knoldus.user.impl.models.UserDetails
+import com.knoldus.user.api.models.UserDetails
 import com.lightbend.lagom.scaladsl.persistence.PersistentEntity
 
 class UserEntity extends PersistentEntity {

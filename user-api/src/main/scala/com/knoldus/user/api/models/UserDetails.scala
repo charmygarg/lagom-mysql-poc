@@ -1,4 +1,4 @@
-package com.knoldus.user.impl.models
+package com.knoldus.user.api.models
 
 import play.api.libs.json.{Json, OFormat}
 

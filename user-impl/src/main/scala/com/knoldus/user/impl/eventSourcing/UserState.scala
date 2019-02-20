@@ -2,7 +2,7 @@ package com.knoldus.user.impl.eventSourcing
 
 import java.time.LocalDateTime
 
-import com.knoldus.user.impl.models.UserDetails
+import com.knoldus.user.api.models.UserDetails
 import play.api.libs.json.{Format, Json}
 
 case class UserState(user: Option[UserDetails], timeStamp: String)

@@ -1,7 +1,7 @@
 package com.knoldus.user.impl
 
 import com.knoldus.user.impl.eventSourcing._
-import com.knoldus.user.impl.models.{GetUserResponse, UpdateRequest, UserDetails, UserResponse}
+import com.knoldus.user.api.models.{GetUserResponse, UpdateRequest, UserDetails, UserResponse}
 import com.lightbend.lagom.scaladsl.playjson.{JsonSerializer, JsonSerializerRegistry}
 
 import scala.collection.immutable.Seq

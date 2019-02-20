@@ -1,7 +1,7 @@
 package com.knoldus.user.impl.eventSourcing
 
 import akka.Done
-import com.knoldus.user.impl.models.UserDetails
+import com.knoldus.user.api.models.UserDetails
 import com.lightbend.lagom.scaladsl.persistence.PersistentEntity.ReplyType
 import play.api.libs.json.{Format, Json}
 

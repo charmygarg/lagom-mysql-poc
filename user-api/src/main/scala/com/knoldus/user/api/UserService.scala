@@ -1,7 +1,7 @@
-package com.knoldus.user.impl
+package com.knoldus.user.api
 
 import akka.NotUsed
-import com.knoldus.user.impl.models._
+import com.knoldus.user.api.models._
 import com.lightbend.lagom.scaladsl.api.Service.{named, restCall}
 import com.lightbend.lagom.scaladsl.api.transport.Method
 import com.lightbend.lagom.scaladsl.api.transport.Method._

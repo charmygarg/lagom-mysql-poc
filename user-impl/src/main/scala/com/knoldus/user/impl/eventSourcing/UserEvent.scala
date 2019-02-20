@@ -1,6 +1,6 @@
 package com.knoldus.user.impl.eventSourcing
 
-import com.knoldus.user.impl.models.UserDetails
+import com.knoldus.user.api.models.UserDetails
 import com.lightbend.lagom.scaladsl.persistence.{AggregateEvent, AggregateEventShards, AggregateEventTag, AggregateEventTagger}
 import play.api.libs.json.{Format, Json}
 

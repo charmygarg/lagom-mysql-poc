@@ -1,5 +1,6 @@
 package com.knoldus.user.impl
 
+import com.knoldus.user.api.UserService
 import com.knoldus.user.impl.eventSourcing.{UserEntity, UserProcessor}
 import com.knoldus.user.impl.repository.{UserRepository, UserRepositoryImpl}
 import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
