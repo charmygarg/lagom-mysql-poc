@@ -1,6 +1,7 @@
 package com.knoldus.user.impl.repository
 
 import akka.Done
+import com.knoldus.user.api.models.UserDetails
 import com.knoldus.user.impl.eventSourcing.{UserAdded, UserDeleted, UserUpdated}
 import com.lightbend.lagom.scaladsl.persistence.jdbc.JdbcSession
 
@@ -45,5 +46,17 @@ class UserRepositoryImpl(session: JdbcSession)(implicit ec: ExecutionContext) ex
       statement.setInt(1, userDeleteEvent.orgId)
       statement.executeUpdate()
     }.map(_ => Done)
+  }
+
+  override def getUserById(orgId: Int): Future[Option[UserDetails]] = {
+    session.withConnection { connection =>
+      val statement = connection.prepareStatement(s"SELECT * FROM user WHERE orgId = $orgId").executeQuery()
+      if (statement.next() && orgId.equals(statement.getInt(1))) {
+        Some(UserDetails(statement.getInt(1), statement.getString(2),
+          statement.getString(3)))
+      } else {
+        None
+      }
+    }
   }
 }
