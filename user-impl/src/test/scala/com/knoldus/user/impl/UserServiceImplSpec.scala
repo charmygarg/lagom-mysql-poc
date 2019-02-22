@@ -1,63 +1,85 @@
 package com.knoldus.user.impl
 
-import java.util.UUID
-import java.util.UUID.randomUUID
-
-import akka.actor.ActorSystem
-import akka.actor.setup.ActorSystemSetup
-import com.knoldus.user.api.UserService
-import com.knoldus.user.api.models.{GetUserResponse, UserDetails, UserResponse}
-import com.knoldus.user.impl.eventSourcing.{AddUserCommand, UserEntity}
+import com.knoldus.user.api.models.UserResponse
+import com.knoldus.user.impl.UserTestHelper.{OrgID, UserUpdateRequest, ValidUserDetails}
+import com.knoldus.user.impl.constants.UserConstants._
+import com.knoldus.user.impl.dataprocessor.UserEsService
 import com.lightbend.lagom.scaladsl.persistence.PersistentEntityRegistry
-import com.lightbend.lagom.scaladsl.playjson.JsonSerializerRegistry
-import com.lightbend.lagom.scaladsl.testkit.{PersistentEntityTestDriver, ReadSideTestDriver, ServiceTest}
+import org.mockito.Mockito
 import org.scalatest.mockito.MockitoSugar
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
-import com.knoldus.user.impl.UserTestHelper.ValidUserDetails
-import com.lightbend.lagom.scaladsl.api.ServiceLocator
-import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
-import com.knoldus.user.impl.UserTestHelper.OrgID
+import org.scalatest.{Matchers, WordSpec}
 
-import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
-class UserServiceImplSpec extends WordSpec with Matchers with BeforeAndAfterAll {
+class UserServiceImplSpec extends WordSpec with Matchers {
 
   val persistentEntityRegistry: PersistentEntityRegistry = MockitoSugar.mock[PersistentEntityRegistry]
-
-  private val server = ServiceTest.startServer(ServiceTest.defaultSetup.withJdbc(true)) { ctx =>
-    new UserApplication(ctx) {
-      override def serviceLocator: ServiceLocator.NoServiceLocator.type = NoServiceLocator
-    }
-  }
-
-  val userService: UserService = server.serviceClient.implement[UserService]
-
-  import server.materializer
-
-  override def afterAll: Unit = server.stop()
+  val esService: UserEsService = MockitoSugar.mock[UserEsService]
+  val userServiceImpl: UserServiceImpl = new UserServiceImpl(esService)
 
   "addUser" should {
-
     "return success response" in {
-      val creatorId = UUID.randomUUID
+      val response = UserResponse(AddedSuccessfully)
+      Mockito.when(esService.getUserDetails(OrgID)).thenReturn(Future.successful(None))
+      Mockito.when(esService.processUserAdded(ValidUserDetails)).thenReturn(Future.successful(response))
+      val result = Await.result(userServiceImpl.addUser().invoke(ValidUserDetails), 5 seconds)
+      result.message shouldBe AddedSuccessfully
+    }
 
-      for {
-        created <- createItem(creatorId, ValidUserDetails)
-        retrieved <- retrieveItem(ValidUserDetails.orgId)
-      } yield {
-        created should === (retrieved)
-      }
+    "return error response" in {
+      Mockito.when(esService.getUserDetails(OrgID)).thenReturn(Future.successful(Some(ValidUserDetails)))
+      val result = Await.result(userServiceImpl.addUser().invoke(ValidUserDetails), 5 seconds)
+      result.message shouldBe UserAlreadyExists
     }
   }
 
-  private def createItem(creatorId: UUID, details: UserDetails): Future[GetUserResponse] = {
-    userService.addUser().invoke(details).map(x => GetUserResponse(Some(details), Some(x.message)))
+  "updateUser" should {
+    "return success response" in {
+      val response = UserResponse(UpdatedSuccessfully)
+      Mockito.when(esService.getUserDetails(OrgID)).thenReturn(Future.successful(Some(ValidUserDetails)))
+      Mockito.when(esService.processUserUpdated(UserUpdateRequest)).thenReturn(Future.successful(response))
+      val result = Await.result(userServiceImpl.updateUser().invoke(UserUpdateRequest), 5 seconds)
+      result.message shouldBe UpdatedSuccessfully
+    }
+
+    "return error response" in {
+      Mockito.when(esService.getUserDetails(OrgID)).thenReturn(Future.successful(None))
+      val result = Await.result(userServiceImpl.updateUser().invoke(UserUpdateRequest), 5 seconds)
+      result.message shouldBe InvalidUser
+    }
   }
 
-  private def retrieveItem(orgID: Int): Future[GetUserResponse] = {
-    userService.getUser(OrgID).invoke
+  "deleteUser" should {
+    "return success response" in {
+      val response = UserResponse(DeletedSuccessfully)
+      Mockito.when(esService.getUserDetails(OrgID)).thenReturn(Future.successful(Some(ValidUserDetails)))
+      Mockito.when(esService.processUserDeleted(OrgID)).thenReturn(Future.successful(response))
+      val result = Await.result(userServiceImpl.deleteUser(OrgID).invoke(), 5 seconds)
+      result.message shouldBe DeletedSuccessfully
+    }
+
+    "return error response" in {
+      Mockito.when(esService.getUserDetails(OrgID)).thenReturn(Future.successful(None))
+      val result = Await.result(userServiceImpl.deleteUser(OrgID).invoke(), 5 seconds)
+      result.message shouldBe InvalidUser
+    }
   }
 
+  "getUser" should {
+    "return success response" in {
+      Mockito.when(esService.getUserDetails(OrgID)).thenReturn(Future.successful(Some(ValidUserDetails)))
+      val result = Await.result(userServiceImpl.getUser(OrgID).invoke(), 5 seconds)
+      result.details.isDefined shouldBe true
+      result.message.isDefined shouldBe false
+    }
+
+    "return error response" in {
+      Mockito.when(esService.getUserDetails(OrgID)).thenReturn(Future.successful(None))
+      val result = Await.result(userServiceImpl.getUser(OrgID).invoke(), 5 seconds)
+      result.details.isDefined shouldBe false
+      result.message.isDefined shouldBe true
+    }
+  }
 }

@@ -1,6 +1,6 @@
 package com.knoldus.user.impl
 
-import com.knoldus.user.api.models.UserDetails
+import com.knoldus.user.api.models.{UpdateRequest, UserDetails}
 
 object UserTestHelper {
 
@@ -10,5 +10,6 @@ object UserTestHelper {
   val Name = "Knoldus"
   val NewName = "Knoldus 2019"
   val ValidUserDetails = new UserDetails(OrgID, EmailID, Name)
+  val UserUpdateRequest = new UpdateRequest(OrgID, NewName)
 
 }

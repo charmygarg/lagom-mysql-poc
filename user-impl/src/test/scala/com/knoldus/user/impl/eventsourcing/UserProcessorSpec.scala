@@ -1,4 +1,4 @@
-package com.knoldus.user.impl.eventsourcing.processor
+package com.knoldus.user.impl.eventsourcing
 
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -6,15 +6,13 @@ import akka.Done
 import akka.persistence.query.Sequence
 import com.knoldus.user.api.models.UserDetails
 import com.knoldus.user.impl.UserApplication
+import com.knoldus.user.impl.UserTestHelper.{NewName, OrgID, ValidUserDetails}
 import com.knoldus.user.impl.eventSourcing.{UserAdded, UserDeleted, UserEvent, UserUpdated}
 import com.knoldus.user.impl.repository.UserRepository
 import com.lightbend.lagom.scaladsl.api.ServiceLocator
 import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
 import com.lightbend.lagom.scaladsl.testkit.{ReadSideTestDriver, ServiceTest}
 import org.scalatest.{AsyncWordSpec, BeforeAndAfterAll, Matchers}
-import com.knoldus.user.impl.UserTestHelper.ValidUserDetails
-import com.knoldus.user.impl.UserTestHelper.OrgID
-import com.knoldus.user.impl.UserTestHelper.NewName
 
 import scala.concurrent.Future
 

@@ -20,7 +20,8 @@ lazy val `user-impl` = (project in file("user-impl"))
   .settings(
     libraryDependencies ++= Seq(lagomScaladslTestKit, MacWire, FilterHelper, ScalaTest,
       lagomScaladslPersistenceJdbc, lagomScaladslApi, Mockito, MySqlConnector, TypeSafeConf))
-  .settings(coverageExcludedPackages := ".*UserLoader.*;.*UserSerializerRegistry.*;.*UserApplication.*;")
+  .settings(
+    coverageExcludedPackages := ".*UserLoader.*;.*UserSerializerRegistry.*;.*UserApplication.*;.*UserConstants.*;")
   .dependsOn(`user-api`)
 
 lagomCassandraEnabled in ThisBuild := false

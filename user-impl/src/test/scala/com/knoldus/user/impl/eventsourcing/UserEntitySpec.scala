@@ -1,4 +1,4 @@
-package com.knoldus.user.impl.eventsourcing.entity
+package com.knoldus.user.impl.eventsourcing
 
 import java.util.UUID.randomUUID
 
@@ -6,13 +6,11 @@ import akka.Done
 import akka.actor.ActorSystem
 import akka.actor.setup.ActorSystemSetup
 import com.knoldus.user.impl.UserSerializerRegistry
+import com.knoldus.user.impl.UserTestHelper.{NewName, OrgID, ValidUserDetails}
 import com.knoldus.user.impl.eventSourcing._
 import com.lightbend.lagom.scaladsl.playjson.JsonSerializerRegistry
 import com.lightbend.lagom.scaladsl.testkit.PersistentEntityTestDriver
 import org.scalatest.AsyncWordSpec
-import com.knoldus.user.impl.UserTestHelper.ValidUserDetails
-import com.knoldus.user.impl.UserTestHelper.OrgID
-import com.knoldus.user.impl.UserTestHelper.NewName
 
 class UserEntitySpec extends AsyncWordSpec {
 

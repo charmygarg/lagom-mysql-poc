@@ -1,6 +1,7 @@
 package com.knoldus.user.impl
 
 import com.knoldus.user.api.UserService
+import com.knoldus.user.impl.dataprocessor.UserEsService
 import com.knoldus.user.impl.eventSourcing.{UserEntity, UserProcessor}
 import com.knoldus.user.impl.repository.{UserRepository, UserRepositoryImpl}
 import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
@@ -38,6 +39,7 @@ abstract class UserApplication(context: LagomApplicationContext)
 
   persistentEntityRegistry.register(wire[UserEntity])
   lazy val repository: UserRepository = wire[UserRepositoryImpl]
+  lazy val esService: UserEsService = wire[UserEsService]
 
   readSide.register(wire[UserProcessor])
 
