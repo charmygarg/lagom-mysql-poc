@@ -13,7 +13,7 @@
  `mysql -u root -p`
  
  ### Sample Service Requests:
- * ##### ADD USER  
+ * #### ADD USER  
  **POST** `http://localhost:9000/user/add`
  
  ````
@@ -24,11 +24,11 @@
  }
  ````
  
-* ##### GET USER  
+* #### GET USER  
   **GET** `http://localhost:9000/user/get?orgId=1`
   
   
-* ##### UPDATE USER  
+* #### UPDATE USER  
   **PUT** `http://localhost:9000/user/update`
   
   ````
@@ -37,6 +37,6 @@
   	"name":"Charmy Garg"
   }
   ````
-* ##### DELETE USER  
+* #### DELETE USER  
   **DELETE** `http://localhost:9000/user/delete?orgId=1`
   
